@@ -66,7 +66,15 @@ using namespace std;
 //     Node satu{42, NULL, NULL};
 //     preorder(&satu);      // mencetak:  42
 // =============================================================================
-void preorder(const Node* root) {
+void preorder(const Node *root)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+    cout << root->data << " ";
+    preorder(root->left);
+    preorder(root->right);
 }
 
 // =============================================================================
@@ -89,7 +97,15 @@ void preorder(const Node* root) {
 //
 //     inorder(NULL);     // tidak mencetak apa pun
 // =============================================================================
-void inorder(const Node* root) {
+void inorder(const Node *root)
+{
+    if (root = nullptr)
+    {
+        return;
+    }
+    inorder(root->left);
+    inorder(root->right);
+    cout << root->data << " ";
 }
 
 // =============================================================================
@@ -113,7 +129,15 @@ void inorder(const Node* root) {
 //
 //     postorder(NULL);   // tidak mencetak apa pun
 // =============================================================================
-void postorder(const Node* root) {
+void postorder(const Node *root)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+    cout << root->data << " ";
+    preorder(root->left);
+    preorder(root->right);
 }
 
 // =============================================================================
@@ -139,7 +163,17 @@ void postorder(const Node* root) {
 //     clear(root);              // tree menjadi kosong
 //     clear(root);              // aman, tidak terjadi apa-apa
 // =============================================================================
-void clear(Node*& root) {
+void clear(Node *&root)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+    clear(root->left);
+    clear(root->right);
+
+    delete root;
+    root == nullptr;
 }
 
 // =============================================================================
@@ -176,8 +210,13 @@ void clear(Node*& root) {
 //      ╱                         (hanya node 3; node 5 dan 4 masing-masing
 //     3                           masih punya satu cabang)
 // =============================================================================
-int jumlahDaun(const Node* root) {
-    return 0;
+int jumlahDaun(const Node *root)
+{
+    if (root == nullptr)
+    {
+        return 0;
+    }
+    return 1 + jumlahDaun(root->left) + jumlahDaun(root->right);
 }
 
 // =============================================================================
@@ -232,44 +271,56 @@ int jumlahDaun(const Node* root) {
 // Sengaja dibangun manual dengan `new`, persis seperti pada modul. Perhatikan
 // bahwa fungsi-fungsi Anda TIDAK dipakai di sini — tree-nya dibentuk sendiri,
 // supaya program ini tetap bisa dijalankan walaupun soal belum dikerjakan.
-static Node* buatTreeContoh() {
-    Node* root              = new Node{50, NULL, NULL};
-    root->left              = new Node{80, NULL, NULL};
-    root->right             = new Node{20, NULL, NULL};
-    root->left->left        = new Node{10, NULL, NULL};
-    root->left->right       = new Node{70, NULL, NULL};
-    root->right->right      = new Node{90, NULL, NULL};
+static Node *buatTreeContoh()
+{
+    Node *root = new Node{50, NULL, NULL};
+    root->left = new Node{80, NULL, NULL};
+    root->right = new Node{20, NULL, NULL};
+    root->left->left = new Node{10, NULL, NULL};
+    root->left->right = new Node{70, NULL, NULL};
+    root->right->right = new Node{90, NULL, NULL};
     root->left->right->left = new Node{30, NULL, NULL};
     return root;
 }
 
 // Membangun tree yang menjulur lurus ke bawah:  5 -> 4 -> 3 (semua ke kiri).
-static Node* buatTreeMiring() {
-    Node* root       = new Node{5, NULL, NULL};
-    root->left       = new Node{4, NULL, NULL};
+static Node *buatTreeMiring()
+{
+    Node *root = new Node{5, NULL, NULL};
+    root->left = new Node{4, NULL, NULL};
     root->left->left = new Node{3, NULL, NULL};
     return root;
 }
 
 // Menulis satu baris keterangan dengan lebar label yang seragam.
-static ostream& baris(const string& label) {
+static ostream &baris(const string &label)
+{
     return cout << "    " << left << setw(12) << label << ": ";
 }
 
 // Menjalankan ketiga traversal pada satu tree, berurutan supaya mudah
 // dibandingkan.
-static void tampilkanTraversal(const Node* root) {
-    baris("preorder");   preorder(root);   cout << "\n";
-    baris("inorder");    inorder(root);    cout << "\n";
-    baris("postorder");  postorder(root);  cout << "\n";
+static void tampilkanTraversal(const Node *root)
+{
+    baris("preorder");
+    preorder(root);
+    cout << "\n";
+    baris("inorder");
+    inorder(root);
+    cout << "\n";
+    baris("postorder");
+    postorder(root);
+    cout << "\n";
 }
 
 // Menampilkan hitungan daun pada satu tree.
-static void tampilkanHitungan(const Node* root) {
+static void tampilkanHitungan(const Node *root)
+{
     baris("jumlahDaun") << jumlahDaun(root) << "\n";
 }
 
-int main() {
+int main()
+{
     cout << "==========================================\n";
     cout << " Latihan — Binary Tree dan Traversal\n";
     cout << " (bagian ini tidak ikut dinilai)\n";
@@ -278,7 +329,7 @@ int main() {
     // -------------------------------------------------------------------------
     // Tree contoh, sama dengan yang dipakai di seluruh soal.
     // -------------------------------------------------------------------------
-    Node* root = buatTreeContoh();
+    Node *root = buatTreeContoh();
 
     cout << "\n[1] Tree contoh\n";
     cout << "\n";
@@ -314,21 +365,21 @@ int main() {
     // Keadaan batas: tree kosong dan tree berisi satu node.
     // -------------------------------------------------------------------------
     cout << "\n[4] Tree kosong (root = NULL)\n";
-    Node* kosong = NULL;
+    Node *kosong = NULL;
     tampilkanTraversal(kosong);
     tampilkanHitungan(kosong);
     cout << "\n    Yang benar: ketiga traversal tidak mencetak apa pun,\n";
     cout << "                jumlahDaun = 0\n";
 
     cout << "\n[5] Tree berisi satu node (42)\n";
-    Node* satu = new Node{42, NULL, NULL};
+    Node *satu = new Node{42, NULL, NULL};
     tampilkanTraversal(satu);
     tampilkanHitungan(satu);
     cout << "\n    Yang benar: ketiganya mencetak 42,\n";
     cout << "                jumlahDaun = 1\n";
 
     cout << "\n[6] Tree yang menjulur lurus ke bawah (5 -> 4 -> 3)\n";
-    Node* miring = buatTreeMiring();
+    Node *miring = buatTreeMiring();
     tampilkanTraversal(miring);
     tampilkanHitungan(miring);
     cout << "\n    Yang benar: preorder 5 4 3, inorder 3 4 5, postorder 3 4 5,\n";
